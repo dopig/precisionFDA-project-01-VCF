@@ -9,13 +9,13 @@ They open up challenges every 4 months or so where bioinformatical teams can com
 
 You can find [their first challenge here](https://precision.fda.gov/challenges/1).  In it, they started with FASTQ sequences from Illumina reads of NA12878, a cell line from a woman from Utah.  They modified these reads to "add a number of specific SNV and InDel variants at 20% or greater variant frequency". Here's some of the information from their public website:
 
-
-| <!-- -->    | <!-- -->    |
-|-------------|-------------|
-|Library Prep 	| Libraries were prepared from 1 microgram of genomic DNA using Kapa Biosystems' KAPA LTP Library Preparation Kit.  Libraries were enriched for exome content using Nimblegen’s SeqCap EZ Human Exome+UTR |
-|Read length | 2x126bp |
-|Insert size | 324bp |
-|Approximate coverage | 76x |
+| Attribute                           | Details                                          |
+|-------------------------------------|--------------------------------------------------|
+| Library Prep                        | Libraries were prepared from 1 microgram of genomic DNA using Kapa Biosystems’ KAPA LTP Library Preparation Kit\.  Libraries were enriched for exome content using Nimblegen’s SeqCap EZ Human Exome \+UTR |
+| Read Length                         | 2x126bp                                          |
+| Insert Size                         | 324bp                                            |
+| Instrument and Sequencing Chemistry | Illumina HiSeq 2500 using Version 4 chemistry    |
+| Approximate Coverage                | 76x                                              |
 
 The title of the challenge is odd as it seems to be _Whole Exome Sequencing_ rather than _RNAseq_.
 
@@ -37,7 +37,7 @@ include:
 ## Explanation of files present
 The project path is probably best explained by going through the files in it.  
 
-### Early files
+### Earlier files
 Here's the earlier files run on smaller genome -- either Ebola or just the exomes of Hs chromosome 15.
 
 - `intro_vc.sh` is a concise, simple script that can simulate some reads from a genome, intoducing some mutations into them.  It them runs a variant caller on that output.  
@@ -82,4 +82,14 @@ The `-M 2` limits to ones with 2 alleles only, avoiding mult-allelic issues.  Th
 
 Obviously I missed some indels.  I'd need to dig into what the various scores on the lower half of the table mean, and think about ways to improve all of it.  Nonetheless, it was nice to get something running!
 
-I may continue working on this, but a new challenge (#12) is opening in a day or two (2020-11-30), and I think I'll want to move onto that and see if I can get good enough at that to throw my hat in the ring for a real running one!
+## Future?
+I may continue working on this, but a new challenge (#12) is opening in a day or two (2020-11-30), and I think I'll want to move onto that and see if I can get good enough at that to throw my hat in the ring for real!
+
+If I do set up another instance, though, it may be valuable to note how much disk space is used to do this stuff.  I may want to get better at using AWS S3 (for cheaper storage than EC2), and at quickly starting and killing instances.
+| Portion            | Space   | Thoughts                                                       |
+|--------------------|---------|----------------------------------------------------------------|
+| Genomic references |   9 Gb  | More or less inevitable                                        |
+| Starting FASTQ\.GZ |   8 Gb  | More or less inevitable, though maybe could delete after using |
+| bbduk FASTQ output |  30 Gb  | Maybe could compress or, after using, delete                   |
+| BAM files          |  24 Gb  | Probably don't need to keep all 3                              |
+|**Total**           |**71 Gb**|**Whoa**                                                        |
